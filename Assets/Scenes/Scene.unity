@@ -154,11 +154,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showInfo: 1
-  walkerPrefab_: {fileID: 1593479044145410, guid: 31b99fd0399a1d2469c30a973a5d343e,
+  walkerPrefab_: {fileID: 1250787663606856, guid: af09346c330ee364c9a1d968c4fee2e4,
     type: 2}
   targetPrefab_: {fileID: 1115783107579264, guid: 3f4f0fe7d5940e2428382f76572de941,
     type: 2}
-  csvFile_: {fileID: 4900000, guid: d5f3b90d6ce110e48bf932b323bc0264, type: 3}
+  csvFile_: {fileID: 4900000, guid: ca4e28c0c2faee5429c5462121b8fc9f, type: 3}
   info_: {fileID: 1431072193}
   animate: 1
   trailLength: 35
@@ -264,8 +264,8 @@ Camera:
   m_GameObject: {fileID: 759471202}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -276,7 +276,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -418,8 +418,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texture: {fileID: 0}
-  kola: {r: 0.9044118, g: 0.9044118, b: 0.9044118, a: 0}
-  boga: {r: 0.6764706, g: 0.8795132, b: 1, a: 0}
+  kola: {r: 0.8897059, g: 0.8897059, b: 0.8897059, a: 0}
+  boga: {r: 1, g: 1, b: 1, a: 0.447}
   sizeX: 100
   sizeY: 100
 --- !u!1 &1061395345
@@ -615,8 +615,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.7
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
