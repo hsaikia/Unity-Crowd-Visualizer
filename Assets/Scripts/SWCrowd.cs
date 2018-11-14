@@ -49,6 +49,8 @@ public class SWCrowd : MonoBehaviour
     private int columns_;
     private int timestep;
     private int maxTimeStep;
+
+    private int totalCollisions;
     public bool animate;
 
     [Range (0, 100)]
@@ -69,7 +71,7 @@ public class SWCrowd : MonoBehaviour
 
     void Update()
     {
-        info_.text = "Timestep " + timestep;
+        
     }
 
     void OnDrawGizmos(){
@@ -137,31 +139,6 @@ public class SWCrowd : MonoBehaviour
             agents_[id].b = dataitems[i][9];
         }
 
-        //Debug.Log("Counts [" + dataitems.Count + "," + dataitems[0].Count + "]");
-
-        // List<List<double> > data = new List<List<double> >(); 
-
-        // for(int i = 0; i < dataitems[0].Count; i++){
-        //     List<double> col = new List<double>();
-        //     for(int j = 0; j < dataitems.Count; j++){
-        //         col.Add(dataitems[j][i]);
-        //     }
-        //     data.Add(col);
-        // }
-
-        // // Find number of agents
-
-        // int minId = 200000;
-        // int maxId = 0;
-
-        // // looping through agent_id
-        // for(int i = 0; i < data[1].Count; i++){
-        //     minId = Mathf.Min(minId, Convert.ToInt32(data[1][i]));
-        //     maxId = Mathf.Max(minId, Convert.ToInt32(data[1][i]));
-        // }
-
-        // Debug.Log("Min ID " + minId + " Max ID " + maxId);
-
         numAgents_ = agents_.Count;
 
         // set agents initial position
@@ -213,9 +190,11 @@ public class SWCrowd : MonoBehaviour
             walkerAgents_.Add(walkerClone);
             targetAgents_.Add(targetClone);
         }
+        totalCollisions = 0;
     }
 
     void moveAgents(){
+        info_.text = "Timestep " + timestep;
         timestep = (timestep + 1) % maxTimeStep;
         for(int i = 0; i < numAgents_; i++)
         {
@@ -235,6 +214,21 @@ public class SWCrowd : MonoBehaviour
             walkerAgents_[i].GetComponent<LineRenderer>().positionCount = poss.Count;
             walkerAgents_[i].GetComponent<LineRenderer>().SetPositions(poss.ToArray());
         }
+
+        // find number of collisions
+        int collisions = 0;
+        for(int i = 0; i < numAgents_; i++)
+        {
+            for(int j = i + 1; j < numAgents_; j++)
+            {
+                if((walkerAgents_[i].transform.position - walkerAgents_[j].transform.position).magnitude < 2 * agents_[i].radius){
+                    collisions++;
+                    totalCollisions++;
+                }
+            }
+        }
+
+        info_.text = "Timestep : " + timestep + "\nCollisions : " + collisions + "\nTotal Collisions : "  + totalCollisions;
     }
 
 }
