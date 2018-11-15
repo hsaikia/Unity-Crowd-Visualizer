@@ -1,0 +1,10 @@
+*.meta
+Library/*
+Packages/*
+ProjectSettings/*
+Screenshots/*
+Temp/*
+*.csproj
+.vs/*
+obj/*
+*.sln
