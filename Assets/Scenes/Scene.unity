@@ -153,17 +153,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9c97c6213c2f0488c1694175a1af85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showInfo: 0
+  showInfo: 1
   walkerPrefab_: {fileID: 1250787663606856, guid: dcd516285d32b244ca17936c889973f9,
     type: 2}
   targetPrefab_: {fileID: 1115783107579264, guid: 3f4f0fe7d5940e2428382f76572de941,
     type: 2}
-  csvFileAgents_: {fileID: 4900000, guid: 7719708bf18f6a44e8080641a4c8b742, type: 3}
+  csvFileAgents_: {fileID: 4900000, guid: 1349c3704bedc274984307953efc72e1, type: 3}
   csvFileWalls_: {fileID: 4900000, guid: f909c17d57c7de440ba678d0bbf4fd14, type: 3}
   info_: {fileID: 1431072193}
   animate: 1
-  showTargets: 0
-  colors_: 1
+  showTargets: 1
+  colors_: 3
   trailLength: 35
 --- !u!1 &751380763
 GameObject:

@@ -40,6 +40,45 @@ public class Wall
     public Vector3 p2;
 }
 
+public class Orientation
+{
+    public float min;
+    public float max;
+    public float mean;
+    public float sd2;
+    public float num;
+
+    public Orientation()
+    {
+        min = float.MaxValue;
+        max = float.MinValue;
+        mean = 0;
+        sd2 = 0;
+        num = 0;
+    }
+
+    public void AddOrientation(float orient)
+    {
+        if(orient < min)
+        {
+            min = orient;
+        }
+
+        if(orient > max)
+        {
+            max = orient;
+        }
+
+        mean = (mean * num + orient) / (num + 1.0f);
+        if (num > 0)
+        {
+            sd2 = (num - 1.0f) * sd2 / num + Mathf.Pow(orient - mean, 2) / (num + 1.0f);
+        }
+        num = num + 1.0f;
+    }
+
+}
+
 public class SWCrowd : MonoBehaviour
 {
     public bool showInfo;
@@ -61,6 +100,9 @@ public class SWCrowd : MonoBehaviour
     public bool animate;
     public bool showTargets;
 
+    private StreamWriter SW_;
+    private Orientation ort_;
+
     [Range(1, 3)]
     public int colors_;
 
@@ -73,6 +115,11 @@ public class SWCrowd : MonoBehaviour
         walls_ = new List<Wall>();
         walkerAgents_ = new List<GameObject>();
         targetAgents_ = new List<GameObject>();
+
+        ort_ = new Orientation();
+
+        SW_ = new StreamWriter(csvFileAgents_.name + "_info.csv");
+        SW_.WriteLine("Timestep, Collisions, Density_COUNT, Minimum_Separation, Orientation_MAX, O_MIN, O_MEAN, O_SD2, O_NUMBER");
         readCSV();
 
         if(animate){
@@ -83,7 +130,7 @@ public class SWCrowd : MonoBehaviour
 
     void Update()
     {
-        
+      
     }
 
     void OnDrawGizmos(){
@@ -309,13 +356,23 @@ public class SWCrowd : MonoBehaviour
         totalCollisions = 0;
     }
 
-    void moveAgents(){
-       
-        for(int i = 0; i < numAgents_; i++)
+    void moveAgents() {
+
+        if (!animate)
+        {
+            return;
+        }
+
+        for (int i = 0; i < numAgents_; i++)
         {
             if (!showTargets)
             {
                 targetAgents_[i].SetActive(false);
+            }
+
+            if(timestep >= agents_[i].pos.Count)
+            {
+                continue;
             }
 
             walkerAgents_[i].transform.SetPositionAndRotation(agents_[i].pos[timestep], Quaternion.identity);
@@ -324,8 +381,8 @@ public class SWCrowd : MonoBehaviour
 
             List<Vector3> poss = new List<Vector3>();
 
-            for(int t = timestep; t >= 0; t--){
-                if(poss.Count >= trailLength){
+            for (int t = timestep; t >= 0; t--) {
+                if (poss.Count >= trailLength) {
                     break;
                 }
                 poss.Add(agents_[i].pos[t]);
@@ -335,50 +392,84 @@ public class SWCrowd : MonoBehaviour
             walkerAgents_[i].GetComponent<LineRenderer>().SetPositions(poss.ToArray());
         }
 
-        // find number of collisions
+        // number of collisions
         int collisions = 0;
-        for(int i = 0; i < numAgents_; i++)
+        float minDist = float.MaxValue;
+        int densityCount = 0;
+
+
+        for (int i = 0; i < numAgents_; i++)
         {
             var di = walkerAgents_[i].transform.position - targetAgents_[i].transform.position;
 
-            if(di.magnitude < agents_[i].radius)
+            // reached
+            if (di.magnitude < agents_[i].radius)
             {
                 continue;
             }
 
-            for(int j = i + 1; j < numAgents_; j++)
+            for (int j = i + 1; j < numAgents_; j++)
             {
                 var dj = walkerAgents_[j].transform.position - targetAgents_[j].transform.position;
 
+                // reached
                 if (dj.magnitude < agents_[j].radius)
                 {
                     continue;
                 }
 
-                if ((walkerAgents_[i].transform.position - walkerAgents_[j].transform.position).magnitude < 2 * agents_[i].radius){
+                var Dij = (walkerAgents_[i].transform.position - walkerAgents_[j].transform.position).magnitude;
+
+                // check collision
+                if (Dij < 2 * agents_[i].radius) {
                     collisions++;
                     totalCollisions++;
                 }
+
+                if (Dij < minDist)
+                {
+                    minDist = Dij;
+                }
+
+                if (Dij < 6 * agents_[i].radius)
+                {
+                    densityCount++;
+                }
+
             }
         }
 
-        timestep = (timestep + 1) % maxTimeStep;
-
-        if(timestep == 0)
+        for (int i = 0; i < numAgents_; i++)
         {
-            totalCollisions = 0;
+            if (timestep >= agents_[i].pos.Count)
+            {
+                continue;
+            }
+
+            var di = (targetAgents_[i].transform.position - walkerAgents_[i].transform.position).normalized;
+            var vi = agents_[i].getForward(timestep).normalized;
+            float orient = Vector3.SignedAngle(di, vi, Vector3.up);
+            ort_.AddOrientation(orient);
         }
+           
 
-
-        ScreenCapture.CaptureScreenshot("Screenshots/shot_" + timestep + ".png");
+        ScreenCapture.CaptureScreenshot("Screenshots/shot_" + (timestep + 1) + ".png");
 
         if (!showInfo)
         {
             info_.text = "";
         } else
         {
-            info_.text = "Timestep : " + timestep + "/" + maxTimeStep +
+            info_.text = "Timestep : " + (timestep + 1) + "/" + (maxTimeStep + 1) +
             "\nCollisions : " + collisions + "\nTotal Collisions : " + totalCollisions;
+        }
+
+        SW_.WriteLine((timestep + 1) + "," + collisions + "," + densityCount + "," + minDist + "," + ort_.max + "," + ort_.min + "," + ort_.mean + "," + ort_.sd2 + "," + ort_.num);
+        timestep = (timestep + 1) % (maxTimeStep + 1);
+        if (timestep == 0)
+        {
+            animate = false;
+            SW_.Close();
         }
     }
 
