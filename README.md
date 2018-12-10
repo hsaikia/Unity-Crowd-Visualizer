@@ -9,7 +9,7 @@ Unity Recorder
 
 ## CSV file header
 
-TIME ,ID ,POS_X ,POS_Y, TAR_X, TAR_Y, AGENT_RADIUS, COLOR_R, COLOR_G, COLOR_B
+`TIME ,ID ,POS_X ,POS_Y, TAR_X, TAR_Y, AGENT_RADIUS, COLOR_R, COLOR_G, COLOR_B`
 
 - Timestep (Positive Integer)
 - Agent_Id (Positive Integer)
@@ -26,7 +26,7 @@ TIME ,ID ,POS_X ,POS_Y, TAR_X, TAR_Y, AGENT_RADIUS, COLOR_R, COLOR_G, COLOR_B
 
 Walls are considered to be line segments. The header is structured like this :
 
-ID, P1_X, P1_Y, P2_X, P2_Y
+`ID, P1_X, P1_Y, P2_X, P2_Y`
 
 - ID : Id of wall
 - P1 : Endpoint 1 of wall
