@@ -282,9 +282,18 @@ public class SWCrowd : MonoBehaviour
         for(int i = 0; i < dataitems.Count; i++){
             // TIME ,ID ,POS_X ,POS_Y, TAR_X, TAR_Y, AGENT_RADIUS, COLOR_R, COLOR_G, COLOR_B 
             int id = Convert.ToInt32(dataitems[i][1]);
-            int time = Convert.ToInt32(dataitems[i][0]);
+            double time = Convert.ToDouble(dataitems[i][0]);
+            int timeI = Convert.ToInt32(dataitems[i][0]);
 
-            maxTimeStep = Mathf.Max(maxTimeStep, time);
+            if(time - timeI < 0.000001) // integer time
+            {
+                // continue
+            } else
+            {
+                continue;
+            }
+
+            maxTimeStep = Mathf.Max(maxTimeStep, timeI);
 
             while(id + 1 > agents_.Count){
                 agents_.Add(new Agent());
