@@ -99,7 +99,7 @@ public class SWCrowd : MonoBehaviour
     public bool showTargets;
     public bool writeStatistics;
     public bool captureScreenshots;
-    [Range(0.1f, 1.0f)]
+    [Range(0.01f, 1.0f)]
     public float AnimateInterval;
 
     [Range(1, 3)]
