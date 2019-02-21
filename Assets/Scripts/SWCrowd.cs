@@ -278,22 +278,23 @@ public class SWCrowd : MonoBehaviour
 
             dataitems.Add(row);
         }
-        
+
+        Debug.Log(dataitems.Count);
+
         for(int i = 0; i < dataitems.Count; i++){
             // TIME ,ID ,POS_X ,POS_Y, TAR_X, TAR_Y, AGENT_RADIUS, COLOR_R, COLOR_G, COLOR_B 
             int id = Convert.ToInt32(dataitems[i][1]);
-            double time = Convert.ToDouble(dataitems[i][0]);
-            int timeI = Convert.ToInt32(dataitems[i][0]);
+            int time = Convert.ToInt32(Math.Floor(dataitems[i][0]));
 
-            if(time - timeI < 0.000001) // integer time
-            {
-                // continue
-            } else
+            if(dataitems[i][0] - time > 0.00001) // non integral time - ignore
             {
                 continue;
             }
 
-            maxTimeStep = Mathf.Max(maxTimeStep, timeI);
+            Debug.Log("Time " + dataitems[i][0] + " Agent " + id);
+
+
+            maxTimeStep = Mathf.Max(maxTimeStep, time);
 
             while(id + 1 > agents_.Count){
                 agents_.Add(new Agent());

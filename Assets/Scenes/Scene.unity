@@ -158,8 +158,8 @@ MonoBehaviour:
     type: 2}
   targetPrefab_: {fileID: 1115783107579264, guid: 3f4f0fe7d5940e2428382f76572de941,
     type: 2}
-  csvFileAgents_: {fileID: 4900000, guid: 75a1bbc5a26908e488bb6a045fbe821e, type: 3}
-  csvFileWalls_: {fileID: 4900000, guid: 8cd7c9b7eabd31f41bd629583969e4b1, type: 3}
+  csvFileAgents_: {fileID: 4900000, guid: 34f0db513b555c14eb4bec6dbc80a491, type: 3}
+  csvFileWalls_: {fileID: 4900000, guid: 71578f104fccaed4ea9d12c0b03cda00, type: 3}
   info_: {fileID: 1431072193}
   animate: 1
   showTargets: 1
@@ -286,7 +286,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
