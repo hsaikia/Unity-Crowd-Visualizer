@@ -279,7 +279,7 @@ public class SWCrowd : MonoBehaviour
             dataitems.Add(row);
         }
 
-        Debug.Log(dataitems.Count);
+        //Debug.Log(dataitems.Count);
 
         for(int i = 0; i < dataitems.Count; i++){
             // TIME ,ID ,POS_X ,POS_Y, TAR_X, TAR_Y, AGENT_RADIUS, COLOR_R, COLOR_G, COLOR_B 
@@ -291,7 +291,7 @@ public class SWCrowd : MonoBehaviour
                 continue;
             }
 
-            Debug.Log("Time " + dataitems[i][0] + " Agent " + id);
+            //Debug.Log("Time " + dataitems[i][0] + " Agent " + id);
 
 
             maxTimeStep = Mathf.Max(maxTimeStep, time);
