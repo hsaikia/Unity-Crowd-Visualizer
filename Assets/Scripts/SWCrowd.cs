@@ -101,6 +101,8 @@ public class SWCrowd : MonoBehaviour
     public bool captureScreenshots;
     [Range(0.01f, 1.0f)]
     public float AnimateInterval;
+    [Range(1, 100)]
+    public int SkipInterval;
 
     [Range(1, 3)]
     public int colors_;
@@ -283,6 +285,9 @@ public class SWCrowd : MonoBehaviour
 
         for(int i = 0; i < dataitems.Count; i++){
             // TIME ,ID ,POS_X ,POS_Y, TAR_X, TAR_Y, AGENT_RADIUS, COLOR_R, COLOR_G, COLOR_B 
+
+            dataitems[i][0] *= SkipInterval;
+
             int id = Convert.ToInt32(dataitems[i][1]);
             int time = Convert.ToInt32(Math.Floor(dataitems[i][0]));
 
