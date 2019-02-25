@@ -443,7 +443,7 @@ public class SWCrowd : MonoBehaviour
 
             if (colors_ == 3)
             {
-                walkerClone.GetComponent<LineRenderer>().startColor = Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f); ;
+                walkerClone.GetComponent<LineRenderer>().startColor = Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f);
             }
             else if (colors_ == 2)
             {
@@ -463,7 +463,7 @@ public class SWCrowd : MonoBehaviour
             walkerClone.GetComponent<LineRenderer>().widthMultiplier = 0.2f;
 
             GameObject targetClone = Instantiate(targetPrefab_, agents_[i].tar[0], Quaternion.identity);
-            targetClone.GetComponent<MeshRenderer>().material.color = new Color(agents_[i].r, agents_[i].g, agents_[i].b);
+            targetClone.GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f);
             targetClone.transform.localScale = new Vector3(2 * agents_[i].radius, 1, 2 * agents_[i].radius);
             targetClone.SetActive(true);
 
