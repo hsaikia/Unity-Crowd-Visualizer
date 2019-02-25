@@ -110,12 +110,15 @@ public class SWCrowd : MonoBehaviour
     [Range (0, 100)]
     public int trailLength;
 
+    private int TotalCollisions_;
+
     void Start()
     {
         agents_ = new List<Agent>();
         walls_ = new List<Wall>();
         walkerAgents_ = new List<GameObject>();
         targetAgents_ = new List<GameObject>();
+        TotalCollisions_ = 0;
 
         readCSV();
 
@@ -169,6 +172,8 @@ public class SWCrowd : MonoBehaviour
         StreamWriter SW;
         SW = new StreamWriter(csvFileAgents_.name + "_info.csv");
         SW.WriteLine("Timestep,Collisions,Density,Minimum_Separation");
+
+        TotalCollisions_ = 0;
 
         for (int t = 0; t <= maxTimeStep; t++)
         {
@@ -225,11 +230,10 @@ public class SWCrowd : MonoBehaviour
                     {
                         densityCount++;
                     }
-
-                    
-
                 }
             }
+
+            TotalCollisions_ += collisions;
 
             if (found)
             {
@@ -411,7 +415,8 @@ public class SWCrowd : MonoBehaviour
             GameObject walkerClone = Instantiate(walkerPrefab_, agents_[i].pos[0] , Quaternion.identity);
             if (colors_ == 3)
             {
-                walkerClone.GetComponent<MeshRenderer>().material.color = new Color(agents_[i].r, agents_[i].g, agents_[i].b);
+                Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f);
+                walkerClone.GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f);
             } else if (colors_ == 2)
             {
                 if(i < numAgents_ / 2)
@@ -522,8 +527,8 @@ public class SWCrowd : MonoBehaviour
             info_.text = "";
         } else
         {
-            info_.text = "Timestep : " + (timestep + 1) + "/" + (maxTimeStep + 1);
-            //+ "\nCollisions : " + collisions + "\nTotal Collisions : " + totalCollisions;
+            info_.text = "Timestep : " + (timestep + 1) + "/" + (maxTimeStep + 1)
+            + "\nTotal Collisions : " + (writeStatistics ? TotalCollisions_.ToString() : "N/A");
         }
 
         
