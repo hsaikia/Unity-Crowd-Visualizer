@@ -415,18 +415,20 @@ public class SWCrowd : MonoBehaviour
             GameObject walkerClone = Instantiate(walkerPrefab_, agents_[i].pos[0] , Quaternion.identity);
             if (colors_ == 3)
             {
-                Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f);
                 walkerClone.GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f);
-            } else if (colors_ == 2)
+            }
+            else if (colors_ == 2)
             {
                 if(i < numAgents_ / 2)
                 {
                     walkerClone.GetComponent<MeshRenderer>().material.color = Color.red;
-                } else
+                }
+                else
                 {
                     walkerClone.GetComponent<MeshRenderer>().material.color = Color.blue;
                 }
-            } else
+            }
+            else
             {
                 walkerClone.GetComponent<MeshRenderer>().material.color = Color.red;
             }
@@ -441,7 +443,7 @@ public class SWCrowd : MonoBehaviour
 
             if (colors_ == 3)
             {
-                walkerClone.GetComponent<LineRenderer>().startColor = new Color(agents_[i].r, agents_[i].g, agents_[i].b);
+                walkerClone.GetComponent<LineRenderer>().startColor = Color.HSVToRGB((float)i / numAgents_, 1.0f, 1.0f); ;
             }
             else if (colors_ == 2)
             {
